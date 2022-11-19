@@ -1,0 +1,5 @@
+---
+ansible_ssh_pass: wirenboard
+snid: <serial number>
+wpa_ssid: <SSID>
+wpa_psk: <PSK>

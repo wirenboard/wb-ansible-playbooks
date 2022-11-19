@@ -1,0 +1,35 @@
+# /etc/network/interfaces -- configuration file for ifup(8), ifdown(8)
+
+# The loopback interface
+auto lo
+iface lo inet loopback
+
+# Wireless interfaces
+allow-hotplug wlan0
+
+auto wlan1
+iface wlan1 inet dhcp
+    wpa-driver wext
+    wpa-ap-scan 1
+    wpa-proto RSN
+    wpa-pairwise CCMP
+    wpa-group CCMP
+    wpa-key-mgmt WPA-PSK
+    wpa-ssid {{ wpa_ssid }}
+    wpa-psk {{ wpa_psk }}
+
+auto wlan0
+iface wlan0 inet static
+  address 192.168.42.1
+  netmask 255.255.255.0
+
+auto eth0
+allow-hotplug eth0
+iface eth0 inet dhcp
+   pre-up wb-set-mac
+   hostname WirenBoard
+
+allow-hotplug eth1
+iface eth1 inet dhcp
+   pre-up wb-set-mac
+   hostname WirenBoard
