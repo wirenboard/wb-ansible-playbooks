@@ -4,7 +4,7 @@
     hosts: all
     remote_user: root
     vars_files:
-      - vars.yml
+      - ../vars.yml
     tasks:
       - name: Set timezone
         community.general.timezone:
@@ -13,7 +13,7 @@
 
       - name: Copy /etc/network/interfaces
         ansible.builtin.template:
-          src: etc/network/interfaces.j2
+          src: ../etc/network/interfaces.j2
           dest: /etc/network/interfaces
           owner: root
           group: root
@@ -22,7 +22,7 @@
 
       - name: Copy /etc/hostapd.conf
         ansible.builtin.template:
-          src: etc/hostapd.conf.j2
+          src: ../etc/hostapd.conf.j2
           dest: /etc/hostapd.conf
           owner: root
           group: root
