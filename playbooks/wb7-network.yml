@@ -1,16 +1,11 @@
 ---
-  - name: WB7 setup playbook
+  - name: WB7 network playbook
     gather_facts: false
     hosts: all
     remote_user: root
     vars_files:
       - ../vars.yml
     tasks:
-      - name: Set timezone
-        community.general.timezone:
-          name: Europe/Moscow
-          hwclock: local
-
       - name: Copy /etc/network/interfaces
         ansible.builtin.template:
           src: ../etc/network/interfaces.j2
@@ -31,22 +26,3 @@
 
       - name: Up wlan1
         ansible.builtin.command: ifup wlan1
-
-      - name: Update and upgrade apt packages
-        apt:
-          upgrade: yes
-          update_cache: yes
-
-      - name: Switch to testing
-        ansible.builtin.command: wb-release -y -t testing
-
-      - name: Update to Debian Bullseye
-        ansible.builtin.command: wb-release -y --update-debian-release
-
-      - name: Enable service hostapd
-        ansible.builtin.systemd:
-          name: hostapd
-          enabled: yes
-
-      - name: Reboot
-        ansible.builtin.reboot:
