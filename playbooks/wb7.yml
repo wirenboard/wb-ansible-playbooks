@@ -4,4 +4,5 @@
 - import_playbook: wb7-testing.yml
 #- import_playbook: wb7-mqtt-serial.yml
 #- import_playbook: wb7-nodered.yml
+#- import_playbook: wb7-telegram.yml
 - import_playbook: wb7-reboot.yml
