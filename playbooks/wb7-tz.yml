@@ -8,5 +8,5 @@
     tasks:
       - name: Set timezone
         community.general.timezone:
-          name: Europe/Moscow
+          name: '{{ tz }}'
           hwclock: local

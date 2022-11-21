@@ -1,5 +1,6 @@
 ---
 ansible_ssh_pass: wirenboard
+tz: Asia/Yerevan
 snid: <serial number>
 wpa_ssid: <SSID>
 wpa_psk: <PSK>
