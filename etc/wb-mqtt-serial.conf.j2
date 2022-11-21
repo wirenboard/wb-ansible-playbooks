@@ -1,0 +1,64 @@
+{
+  "debug" : false,
+  "ports" : 
+  [
+    {
+      "baud_rate" : 9600,
+      "data_bits" : 8,
+      "devices" : 
+      [
+        {
+          "device_type" : "WB-MSW v.3",
+          "slave_id" : "{{ wb_msw_slave_id }}"
+        }
+      ],
+      "enabled" : true,
+      "parity" : "N",
+      "path" : "/dev/ttyRS485-1",
+      "port_type" : "serial",
+      "stop_bits" : 2
+    },
+    {
+      "baud_rate" : 9600,
+      "data_bits" : 8,
+      "devices" : 
+      [
+        {
+          "device_type" : "WB-MR6CU",
+          "slave_id" : "{{ wb_mr6cu_slave_id }}"
+        }
+      ],
+      "enabled" : true,
+      "parity" : "N",
+      "path" : "/dev/ttyRS485-2",
+      "stop_bits" : 2
+    },
+    {
+      "baud_rate" : 9600,
+      "data_bits" : 8,
+      "devices" : [],
+      "enabled" : false,
+      "parity" : "N",
+      "path" : "/dev/ttyMOD1",
+      "stop_bits" : 2
+    },
+    {
+      "baud_rate" : 9600,
+      "data_bits" : 8,
+      "devices" : [],
+      "enabled" : false,
+      "parity" : "N",
+      "path" : "/dev/ttyMOD2",
+      "stop_bits" : 2
+    },
+    {
+      "baud_rate" : 9600,
+      "data_bits" : 8,
+      "devices" : [],
+      "enabled" : false,
+      "parity" : "N",
+      "path" : "/dev/ttyMOD3",
+      "stop_bits" : 2
+    }
+  ]
+}

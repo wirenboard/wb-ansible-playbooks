@@ -2,5 +2,7 @@
 ansible_ssh_pass: wirenboard
 tz: Asia/Yerevan
 snid: <serial number>
+wb_mr6cu_slave_id: 83
+wb_msw_slave_id: 31
 wpa_ssid: <SSID>
 wpa_psk: <PSK>
