@@ -7,9 +7,14 @@
       - ../config.yml
     tasks:
       - name: Update and upgrade apt packages
-        apt:
+        ansible.builtin.apt:
           upgrade: yes
           update_cache: yes
+
+      - name: Install packages
+        ansible.builtin.apt:
+          pkg:
+          - htop
 
       - name: Switch to testing
         ansible.builtin.command: wb-release -y -t testing
@@ -17,13 +22,13 @@
       - name: Update to Debian Bullseye
         ansible.builtin.command: wb-release -y --update-debian-release
 
-      - name: Install packages
-        ansible.builtin.apt:
-          pkg:
-          - htop
-          - wb-nm-helper
-
       - name: Enable service hostapd
         ansible.builtin.systemd:
           name: hostapd
           enabled: yes
+
+      - name: Fix mosquitto config
+        ansible.builtin.lineinfile:
+          path: /etc/mosquitto/conf.d/10listeners.conf
+          insertafter: "^protocol websockets"
+          line: "socket_domain ipv4"
