@@ -1,7 +1,7 @@
 ## WB7 initial setup
 1. Turn on the controller
 2. Connect to `WirenBoard-XXXXXXXX` Wi-Fi access point
-3. Edit `vars.yml`
+3. Edit `config.yml`
 4. Run ansible playbook:
 ```sh
 nix shell nixpkgs#{ansible,sshpass}

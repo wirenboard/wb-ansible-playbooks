@@ -1,5 +1,6 @@
 ---
 - import_playbook: wb7-tz.yml
+- import_playbook: wb7-ssh.yml
 - import_playbook: wb7-network.yml
 - import_playbook: wb7-testing.yml
 #- import_playbook: wb7-mqtt-serial.yml
