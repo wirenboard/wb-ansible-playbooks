@@ -26,9 +26,3 @@
         ansible.builtin.systemd:
           name: hostapd
           enabled: yes
-
-      - name: Fix mosquitto config
-        ansible.builtin.lineinfile:
-          path: /etc/mosquitto/conf.d/10listeners.conf
-          insertafter: "^protocol websockets"
-          line: "socket_domain ipv4"

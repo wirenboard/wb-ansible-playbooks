@@ -2,7 +2,7 @@
 1. Turn on the controller
 2. Connect to `WirenBoard-XXXXXXXX` Wi-Fi access point
 3. Edit `config.yml`
-4. Run ansible playbook:
+4. Run ansible playbook (it might take more than 30 min):
 ```sh
 nix shell nixpkgs#{ansible,sshpass}
 ansible-playbook -i 192.168.42.1, playbooks/wb7.yml
