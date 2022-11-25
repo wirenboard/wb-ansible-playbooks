@@ -1,0 +1,10 @@
+---
+- name: Apply common configuration
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common
+#    - mqtt
+#    - influxdb
+#    - nodered

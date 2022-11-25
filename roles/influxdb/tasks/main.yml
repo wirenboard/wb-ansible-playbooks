@@ -1,0 +1,31 @@
+---
+- name: Install influxdb
+  ansible.builtin.apt:
+    pkg:
+    - influxdb
+    - influxdb-client
+    - python3-influxdb
+    - python3-requests
+
+- name: Create database
+  community.general.influxdb_database:
+    database_name: mqtt_data
+
+- name: Download wbmqtt2influx
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wirenboard/wbmqtt2influx/master/mqtt_to_influxdb.py
+    dest: /usr/local/bin/mqtt_to_influxdb.py
+
+- name: Copy /etc/systemd/system/mqtt_to_influxdb.service
+  ansible.builtin.copy:
+    src: mqtt_to_influxdb.service
+    dest: /etc/systemd/system/mqtt_to_influxdb.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Enable service mqtt_to_influxdb
+  ansible.builtin.systemd:
+    name: mqtt_to_influxdb
+    enabled: yes
+    state: started
