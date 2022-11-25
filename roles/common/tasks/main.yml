@@ -28,8 +28,21 @@
     mode: '0644'
     backup: yes
 
+- name: Copy wifi_autoconnect.sh
+  ansible.builtin.copy:
+    src: wifi_autoconnect.sh
+    dest: /root/wifi_autoconnect.sh
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Up wlan1
   ansible.builtin.command: ifup wlan1
+
+- name: Automatic reconnection
+  ansible.builtin.cron:
+    name: Automatic reconnection
+    job: /root/wifi_autoconnect.sh
 
 - name: Update and upgrade apt packages
   ansible.builtin.apt:
@@ -51,3 +64,6 @@
   ansible.builtin.systemd:
     name: hostapd
     enabled: yes
+
+- name: Reboot
+  ansible.builtin.reboot:
