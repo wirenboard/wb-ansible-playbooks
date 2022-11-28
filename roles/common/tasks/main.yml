@@ -53,6 +53,7 @@
   ansible.builtin.apt:
     pkg:
     - htop
+    - systemd-coredump
 
 - name: Switch to testing
   ansible.builtin.command: wb-release -y -t testing
