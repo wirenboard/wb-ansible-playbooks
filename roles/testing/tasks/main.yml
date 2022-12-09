@@ -1,0 +1,28 @@
+---
+#- name: Download FIT image
+#  ansible.builtin.get_url:
+#    url: '{{ fit_image }}'
+#    dest: /mnt/data/update_image.fit
+
+#- name: Update firmware
+#  ansible.builtin.shell: |
+#    nohup wb-run-update /mnt/data/update_image.fit &
+
+- name: Update and upgrade apt packages
+  ansible.builtin.apt:
+    upgrade: yes
+    update_cache: yes
+
+- name: Switch to testing
+  ansible.builtin.command: wb-release -y -t testing
+
+- name: Update to Debian Bullseye
+  ansible.builtin.command: wb-release -y --update-debian-release
+
+- name: Enable service hostapd
+  ansible.builtin.systemd:
+    name: hostapd
+    enabled: yes
+
+- name: Reboot
+  ansible.builtin.reboot:

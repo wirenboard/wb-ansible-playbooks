@@ -5,6 +5,9 @@
 
   roles:
     - common
-#    - mqtt
+    - network
+    - testing
+    - router
+    - mqtt
 #    - influxdb
 #    - nodered

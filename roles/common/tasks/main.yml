@@ -1,70 +1,11 @@
 ---
-- name: Set timezone
-  community.general.timezone:
-    name: '{{ tz }}'
-    hwclock: local
-
 - name: Set authorized key
   ansible.posix.authorized_key:
     user: root
     state: present
     key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
 
-- name: Copy /etc/network/interfaces
-  ansible.builtin.template:
-    src: interfaces.j2
-    dest: /etc/network/interfaces
-    owner: root
-    group: root
-    mode: '0644'
-    backup: yes
-
-- name: Copy /etc/hostapd.conf
-  ansible.builtin.template:
-    src: hostapd.conf.j2
-    dest: /etc/hostapd.conf
-    owner: root
-    group: root
-    mode: '0644'
-    backup: yes
-
-- name: Copy wifi_autoconnect.sh
-  ansible.builtin.copy:
-    src: wifi_autoconnect.sh
-    dest: /root/wifi_autoconnect.sh
-    owner: root
-    group: root
-    mode: '0755'
-
-- name: Up wlan1
-  ansible.builtin.command: ifup wlan1
-
-- name: Automatic reconnection
-  ansible.builtin.cron:
-    name: Automatic reconnection
-    job: /root/wifi_autoconnect.sh
-
-- name: Update and upgrade apt packages
-  ansible.builtin.apt:
-    upgrade: yes
-    update_cache: yes
-
-- name: Install extra packages
-  ansible.builtin.apt:
-    pkg:
-    - htop
-    - systemd-coredump
-
-- name: Switch to testing
-  ansible.builtin.command: wb-release -y -t testing
-
-- name: Update to Debian Bullseye
-  ansible.builtin.command: wb-release -y --update-debian-release
-
-- name: Enable service hostapd
-  ansible.builtin.systemd:
-    name: hostapd
-    enabled: yes
-
-- name: Reboot
-  ansible.builtin.reboot:
+- name: Set timezone
+  community.general.timezone:
+    name: '{{ tz }}'
+    hwclock: local

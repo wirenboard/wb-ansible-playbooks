@@ -1,5 +1,6 @@
 ---
 ansible_ssh_pass: wirenboard
+fit_image: http://fw-releases.wirenboard.com/fit_image/testing/7x/latest.fit
 tz: Asia/Yerevan
 snid: <serial number>
 wb_mr6cu_slave_id: 83
