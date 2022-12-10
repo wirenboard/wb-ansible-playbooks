@@ -1,0 +1,29 @@
+---
+- name: Download telegram2wb module
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wb-adegtyarev/telegram2wb/main/src/telegram2wb.js
+    dest: /etc/wb-rules-modules/telegram2wb.js
+
+- name: Download rules
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/wb-adegtyarev/telegram2wb/main/example/telegram2wb-logic.js
+    dest: /etc/wb-rules/telegram2wb-logic.js
+
+- name: Set bot token
+  ansible.builtin.lineinfile:
+    path: /etc/wb-rules/telegram2wb-logic.js
+    regexp: '^token = "".*'
+    line: 'token = "{{ tg_bot_token }}"'
+
+- name: Set allowed users
+  ansible.builtin.lineinfile:
+    path: /etc/wb-rules/telegram2wb-logic.js
+    regexp: '^allowUsers = \["username"\](.*)'
+    line: 'allowUsers = ["{{ tg_bot_user }}"]\1'
+    backrefs: yes
+
+- name: Restart service wb-rules
+  ansible.builtin.systemd:
+    state: restarted
+    daemon_reload: yes
+    name: wb-rules

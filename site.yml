@@ -8,6 +8,7 @@
     - network
     - testing
     - router
+    - telegram2wb
     - mqtt
 #    - influxdb
 #    - nodered

@@ -14,11 +14,6 @@
     daemon_reload: yes
     name: wb-mqtt-serial
 
-- name: Download telegram2wb module
-  ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/wb-adegtyarev/telegram2wb/main/src/telegram2wb.js
-    dest: /etc/wb-rules-modules/telegram2wb.js
-
 - name: Copy rules.js
   ansible.builtin.copy:
     src: rules.js
