@@ -1,8 +1,10 @@
 ---
 - name: Install iptables
+  become: true
   ansible.builtin.apt:
-    pkg:
-    - iptables
+    name: iptables
+    state: present
+    update_cache: true
 
 - name: Add the ip_tables module
   community.general.modprobe:
