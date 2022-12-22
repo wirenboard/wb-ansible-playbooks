@@ -6,12 +6,12 @@
     owner: root
     group: root
     mode: '0644'
-    backup: yes
+    backup: true
 
 - name: Restart service wb-mqtt-serial
   ansible.builtin.systemd:
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
     name: wb-mqtt-serial
 
 - name: Copy rules.js
@@ -25,5 +25,5 @@
 - name: Restart service wb-rules
   ansible.builtin.systemd:
     state: restarted
-    daemon_reload: yes
+    daemon_reload: true
     name: wb-rules

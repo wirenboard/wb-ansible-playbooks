@@ -2,12 +2,12 @@
 - name: Install required packages
   ansible.builtin.apt:
     pkg:
-    - nodejs
-    - git
-    - make
-    - g++
-    - gcc
-    - build-essential
+      - nodejs
+      - git
+      - make
+      - g++
+      - gcc
+      - build-essential
 
 - name: Install Node-RED
   community.general.npm:
@@ -26,4 +26,4 @@
 - name: Enable service nodered
   ansible.builtin.systemd:
     name: nodered
-    enabled: yes
+    enabled: true

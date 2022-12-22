@@ -12,6 +12,6 @@ ssh-keygen -R 192.168.42.1
 4. Edit `group_vars/all` with proper values
 5. Run ansible playbook (it might take more than 30 min):
 ```sh
-nix shell nixpkgs#{ansible,sshpass}
+nix shell nixpkgs#{ansible,ansible-lint,sshpass}
 ansible-playbook -i hosts site.yml
 ```
