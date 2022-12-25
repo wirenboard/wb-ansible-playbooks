@@ -1,0 +1,19 @@
+---
+- name: Update and upgrade apt packages
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: true
+
+- name: Switch to testing
+  ansible.builtin.command: wb-release -y -t testing
+
+- name: Update to Debian Bullseye
+  ansible.builtin.command: wb-release -y --update-debian-release
+
+- name: Enable service hostapd
+  ansible.builtin.systemd:
+    name: hostapd
+    enabled: true
+
+- name: Reboot
+  ansible.builtin.reboot:

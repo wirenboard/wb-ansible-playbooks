@@ -1,0 +1,15 @@
+---
+- name: Download FIT image
+  ansible.builtin.get_url:
+    url: '{{ fit_image }}'
+    dest: /mnt/data/update_image.fit
+    mode: '0644'
+
+- name: Update firmware
+  ansible.builtin.shell: |
+    nohup wb-run-update /mnt/data/update_image.fit >/dev/null 2>&1 &
+
+- name: Wait for connection
+  ansible.builtin.wait_for_connection:
+    delay: 360
+    timeout: 1200

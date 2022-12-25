@@ -1,41 +1,18 @@
 ---
-- name: Download FIT image
-  ansible.builtin.get_url:
-    url: '{{ fit_image }}'
-    dest: /mnt/data/update_image.fit
-    mode: '0644'
+- name: Include update_fit.yml
+  ansible.builtin.include_tasks: update_fit.yml
 
-- name: Update firmware
-  ansible.builtin.shell: |
-    nohup wb-run-update /mnt/data/update_image.fit >/dev/null 2>&1 &
+# - name: Include update_apt.yml
+#   ansible.builtin.include_tasks: update_apt.yml
 
-- name: Wait for connection
-  ansible.builtin.wait_for_connection:
-    delay: 360
-    timeout: 1200
+- name: Install NetworkManager
+  ansible.builtin.include_tasks: networkmanager.yml
 
 - name: Install extra packages
   ansible.builtin.apt:
     pkg:
+      - fish
+      - fzf
       - htop
       - micro
     update_cache: true
-
-# - name: Update and upgrade apt packages
-#   ansible.builtin.apt:
-#     upgrade: true
-#     update_cache: true
-
-# - name: Switch to testing
-#   ansible.builtin.command: wb-release -y -t testing
-
-# - name: Update to Debian Bullseye
-#   ansible.builtin.command: wb-release -y --update-debian-release
-
-# - name: Enable service hostapd
-#   ansible.builtin.systemd:
-#     name: hostapd
-#     enabled: true
-
-# - name: Reboot
-#   ansible.builtin.reboot:
