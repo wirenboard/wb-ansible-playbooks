@@ -13,5 +13,5 @@ ssh-keygen -R 192.168.42.1
 5. Run ansible playbook (it might take more than 30 min):
 ```sh
 nix shell nixpkgs#{ansible,ansible-lint,sshpass}
-ansible-playbook -i hosts site.yml
+ansible-playbook -i 192.168.42.1, site.yml
 ```

@@ -1,7 +1,7 @@
 ---
-- name: Download FIT image
-  ansible.builtin.get_url:
-    url: '{{ fit_image }}'
+- name: Copy FIT image
+  ansible.builtin.copy:
+    src: ./latest.fit
     dest: /mnt/data/update_image.fit
     mode: '0644'
 
