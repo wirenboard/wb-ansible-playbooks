@@ -1,34 +1,23 @@
 ---
-- name: Add tailscale signing key
-  become: true
-  ansible.builtin.get_url:
-    url: https://pkgs.tailscale.com/stable/debian/bullseye.noarmor.gpg
-    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
-    mode: '0644'
-
-- name: Add tailscale deb
-  become: true
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/debian bullseye main"
-    state: present
-
-- name: Install tailscale
-  become: true
-  ansible.builtin.apt:
-    name: tailscale
-    state: present
-    update_cache: true
-
-- sysctl:
+- name: Set net.ipv4.ip_forward=1
+  ansible.posix.sysctl:
     name: net.ipv4.ip_forward
     value: '1'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
 
-- sysctl:
+- name: Set net.ipv6.conf.all.forwarding=1
+  ansible.posix.sysctl:
     name: net.ipv6.conf.all.forwarding
     value: '1'
-    sysctl_set: yes
+    sysctl_set: true
     state: present
-    reload: yes
+    reload: true
+
+- name: Configure Tailscale
+  include_role:
+    name: artis3n.tailscale
+  vars:
+    tailscale_args: "--advertise-exit-node"
+    tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
