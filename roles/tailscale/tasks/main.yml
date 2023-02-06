@@ -15,6 +15,9 @@
     state: present
     reload: true
 
+- name: Set ansible_distribution_major_version
+  ansible.builtin.set_fact: ansible_distribution_major_version=11
+
 - name: Configure Tailscale
   include_role:
     name: artis3n.tailscale

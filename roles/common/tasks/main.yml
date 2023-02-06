@@ -1,4 +1,19 @@
 ---
+- name: Copy FIT image
+  ansible.builtin.copy:
+    src: ./latest.fit
+    dest: /mnt/data/update_image.fit
+    mode: '0644'
+
+- name: Update firmware
+  ansible.builtin.shell: |
+    nohup wb-run-update /mnt/data/update_image.fit >/dev/null 2>&1 &
+
+- name: Wait for connection
+  ansible.builtin.wait_for_connection:
+    delay: 360
+    timeout: 1200
+
 - name: Set authorized key
   ansible.posix.authorized_key:
     user: root
@@ -9,3 +24,58 @@
   community.general.timezone:
     name: '{{ tz }}'
     hwclock: local
+
+- name: Set mosquitto log
+  ansible.builtin.replace:
+    path: /etc/mosquitto/mosquitto.conf
+    regexp: "^log_dest (.+)$"
+    replace: "log_dest syslog"
+
+- name: Get controller's serial number
+  ansible.builtin.slurp:
+    src: /mnt/data/var/lib/wirenboard/short_sn.conf
+  register: snid
+
+- name: Update AP mode wifi connection
+  community.general.nmcli:
+    type: wifi
+    conn_name: "wb-ap"
+    ifname: wlan0
+    ssid: "WirenBoard-{{ snid['content'] | b64decode }}"
+    wifi:
+      mode: ap
+    wifi_sec:
+      key-mgmt: wpa-psk
+      psk: "wirenboard"
+      wps-method: 1
+    autoconnect: true
+    state: present
+
+- name: Add client mode wifi connection
+  community.general.nmcli:
+    type: wifi
+    conn_name: "{{ lookup('env', 'SSID') }}"
+    ifname: wlan1
+    ssid: "{{ lookup('env', 'SSID') }}"
+    wifi_sec:
+      key-mgmt: wpa-psk
+      psk: "{{ lookup('env', 'PSK') }}"
+    autoconnect: true
+    state: present
+
+- name: Empty /etc/network/interfaces
+  ansible.builtin.shell: echo > /etc/network/interfaces
+
+- name: Upgrade packages
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: true
+
+- name: Install extra packages
+  ansible.builtin.apt:
+    pkg:
+      - fish
+      - fzf
+      - htop
+      - micro
+      - tmux

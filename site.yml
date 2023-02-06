@@ -5,11 +5,5 @@
 
   roles:
     - common
-    - network
-    - testing
-    - router
     - tailscale
-    - telegram2wb
-    - mqtt
-#    - influxdb
-#    - nodered
+    - podman
