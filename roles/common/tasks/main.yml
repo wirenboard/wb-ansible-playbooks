@@ -78,4 +78,5 @@
       - fzf
       - htop
       - micro
+      - systemd-coredump
       - tmux
