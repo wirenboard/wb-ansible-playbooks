@@ -76,6 +76,7 @@
     pkg:
       - fish
       - fzf
+      - gdb
       - htop
       - micro
       - systemd-coredump
