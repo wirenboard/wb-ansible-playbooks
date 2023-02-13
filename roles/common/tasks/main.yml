@@ -66,6 +66,14 @@
 - name: Empty /etc/network/interfaces
   ansible.builtin.shell: echo > /etc/network/interfaces
 
+- name: Add the user 'user'
+  ansible.builtin.user:
+    name: user
+    comment: WB user
+    group: users
+    home: /mnt/data/user
+    password: $6$TAwiuBFg80WAExrX$KbIehXImdbR5dT9d0dINhbJCBlPgkZEez.oO359GPxrPwtsik36wP4nynMyEbUlfSximlygP3VU6.pNbMgFm.1
+
 - name: Upgrade packages
   ansible.builtin.apt:
     upgrade: true
