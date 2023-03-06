@@ -114,3 +114,11 @@
       - sudo
       - systemd-coredump
       - tmux
+
+- name: Run tmux on ssh login
+  ansible.builtin.blockinfile:
+    path: /root/.bashrc
+    block: |
+      if [[ -z $TMUX ]] && [[ -n $SSH_TTY ]]; then
+        exec tmux new-session -A -s wb-session
+      fi
