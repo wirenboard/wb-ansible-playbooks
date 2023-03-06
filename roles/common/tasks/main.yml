@@ -31,6 +31,27 @@
     regexp: "^log_dest (.+)$"
     replace: "log_dest syslog"
 
+- name: Create password for mosquitto
+  ansible.builtin.shell: |
+    mosquitto_passwd -b /etc/mosquitto/passwd/default.conf root wirenboard
+
+- name: Disable anonymous access
+  ansible.builtin.replace:
+    path: /etc/mosquitto/conf.d/10listeners.conf
+    regexp: "^allow_anonymous true$"
+    replace: "allow_anonymous false"
+
+- name: Update mosquitto ACL
+  ansible.builtin.lineinfile:
+    path: /etc/mosquitto/acl/default.conf
+    insertbefore: "BOF"
+    line: "user root"
+
+- name: Restart mosquitto
+  ansible.builtin.systemd:
+    state: restarted
+    name: mosquitto
+
 - name: Get controller's serial number
   ansible.builtin.slurp:
     src: /mnt/data/var/lib/wirenboard/short_sn.conf
@@ -55,6 +76,9 @@
   community.general.nmcli:
     type: wifi
     conn_name: "{{ lookup('env', 'SSID') }}"
+    dns4:
+      - "1.1.1.1"
+      - "8.8.8.8"
     ifname: wlan1
     ssid: "{{ lookup('env', 'SSID') }}"
     wifi_sec:
@@ -63,8 +87,8 @@
     autoconnect: true
     state: present
 
-- name: Empty /etc/network/interfaces
-  ansible.builtin.shell: echo > /etc/network/interfaces
+# - name: Empty /etc/network/interfaces
+#   ansible.builtin.shell: echo > /etc/network/interfaces
 
 - name: Add the user 'user'
   ansible.builtin.user:
@@ -87,5 +111,6 @@
       - gdb
       - htop
       - micro
+      - sudo
       - systemd-coredump
       - tmux
