@@ -64,7 +64,10 @@
     ifname: wlan0
     ssid: "WirenBoard-{{ snid['content'] | b64decode }}"
     wifi:
+      band: bg
+      channel: 1
       mode: ap
+      powersave: 2
     wifi_sec:
       key-mgmt: wpa-psk
       psk: "wirenboard"
